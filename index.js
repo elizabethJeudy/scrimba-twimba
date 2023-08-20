@@ -12,9 +12,12 @@ tweetBtn.addEventListener("click", function () {
 document.addEventListener("click", function (event) {
 	if (event.target.dataset.like) {
 		handleLikes(event.target.dataset.like);
+	} else if (event.target.dataset.retweet) {
+		handleRetweets(event.target.dataset.retweet);
 	}
 });
-// iterates over tweet data, grabbing user uuid
+
+// iterates over tweet data, grabbing user uuid for likes
 function handleLikes(tweetID) {
 	const targetTweet = tweetsData.filter(function (tweet) {
 		return tweet.uuid === tweetID;
@@ -26,6 +29,20 @@ function handleLikes(tweetID) {
 		targetTweet.likes++;
 	}
 	targetTweet.isLiked = !targetTweet.isLiked;
+	render();
+}
+
+// handles retweets
+function handleRetweets(tweetID) {
+	const targetTweet = tweetsData.filter(function (tweet) {
+		return tweet.uuid === tweetID;
+	})[0];
+	if (targetTweet.isRetweeted) {
+		targetTweet.retweets--;
+	} else {
+		targetTweet.retweets++;
+	}
+	targetTweet.isRetweeted = !targetTweet.isRetweeted;
 	render();
 }
 
