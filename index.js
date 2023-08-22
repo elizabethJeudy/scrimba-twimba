@@ -52,12 +52,20 @@ function getFeedHtml() {
 	tweetsData.forEach(function (tweet) {
 		let likedIcon = "";
 		let retweetedIcon = "";
+		// let replyIcon = []
+		// checks if icon as been liked or retweeted, conditionally renders css for it
 		if (tweet.isLiked) {
 			likedIcon = "liked";
 		}
 		if (tweet.isRetweeted) {
 			retweetedIcon = "retweeted";
 		}
+
+		// checks if tweet as replies
+		if (tweet.replies.length > 0) {
+			console.log(tweet.uuid);
+		}
+
 		feedHtml += `
         <div class="tweet">
 	        <div class="tweet-inner"> 
