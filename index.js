@@ -60,10 +60,21 @@ function getFeedHtml() {
 		if (tweet.isRetweeted) {
 			retweetedIcon = "retweeted";
 		}
-
 		// checks if tweet as replies
+		let repliesHtml = "";
 		if (tweet.replies.length > 0) {
-			console.log(tweet.uuid);
+			tweet.replies.forEach(function (reply) {
+				repliesHtml += `
+				<div class="tweet-reply">
+					<div class="tweet-inner">
+						<img src="${reply.profilePic}" class="profile-pic"/>
+							<div>
+								<p class="handle">${reply.handle}</p>
+								<p class="tweet-text">${reply.tweetText}</p>
+							</div>
+					</div>
+				</div>`;
+			});
 		}
 
 		feedHtml += `
@@ -86,6 +97,9 @@ function getFeedHtml() {
 			        </div>
 		        </div>
 	        </div>
+					<div id="replies-${tweet.uuid}">
+					${repliesHtml}
+					</div>
         </div>
         `;
 	});
