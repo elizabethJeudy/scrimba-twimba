@@ -14,6 +14,8 @@ document.addEventListener("click", function (event) {
 		handleLikes(event.target.dataset.like);
 	} else if (event.target.dataset.retweet) {
 		handleRetweets(event.target.dataset.retweet);
+	} else if (event.target.dataset.reply) {
+		handleReplies(event.target.dataset.reply);
 	}
 });
 
@@ -44,6 +46,11 @@ function handleRetweets(tweetID) {
 	}
 	targetTweet.isRetweeted = !targetTweet.isRetweeted;
 	render();
+}
+
+// handles replies
+function handleReplies(replyId) {
+	document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
 }
 
 // gets data from tweet data
@@ -97,7 +104,7 @@ function getFeedHtml() {
 			        </div>
 		        </div>
 	        </div>
-					<div id="replies-${tweet.uuid}">
+					<div class="hidden" id="replies-${tweet.uuid}">
 					${repliesHtml}
 					</div>
         </div>
