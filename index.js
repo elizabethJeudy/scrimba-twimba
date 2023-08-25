@@ -1,25 +1,6 @@
 import { tweetsData } from "./data.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
-const tweetBtn = document.getElementById("tweet-btn");
-const tweetInput = document.getElementById("tweet-input");
-
-// handles tweet button clicks
-tweetBtn.addEventListener("click", function () {
-	tweetInput.value = "";
-	console.log({
-		handle: `@Lizzy`,
-		profilePic: `images/troll.jpg`,
-		likes: 207,
-		retweets: 105,
-		tweetText: tweetInput.value,
-		replies: [],
-		isLiked: false,
-		isRetweeted: false,
-		uuid: uuidv4(),
-	});
-});
-
 // handle clicks for replies, likes, retweets
 document.addEventListener("click", function (event) {
 	if (event.target.dataset.like) {
@@ -28,6 +9,8 @@ document.addEventListener("click", function (event) {
 		handleRetweets(event.target.dataset.retweet);
 	} else if (event.target.dataset.reply) {
 		handleReplies(event.target.dataset.reply);
+	} else if (event.target.id === "tweet-btn") {
+		handleTweets();
 	}
 });
 
@@ -63,6 +46,26 @@ function handleRetweets(tweetID) {
 // toggles replies
 function handleReplies(replyId) {
 	document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
+}
+
+// handles tweet button clicks
+function handleTweets() {
+	const tweetInput = document.getElementById("tweet-input");
+	if (tweetInput.value) {
+		tweetsData.unshift({
+			handle: `@Lizzy`,
+			profilePic: `images/troll.jpg`,
+			likes: 0,
+			retweets: 0,
+			tweetText: tweetInput.value,
+			replies: [],
+			isLiked: false,
+			isRetweeted: false,
+			uuid: uuidv4(),
+		});
+		render();
+		tweetInput.value = "";
+	}
 }
 
 // gets data from tweet data
