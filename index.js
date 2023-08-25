@@ -1,14 +1,26 @@
 import { tweetsData } from "./data.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
 const tweetBtn = document.getElementById("tweet-btn");
 const tweetInput = document.getElementById("tweet-input");
 
-// renders tweet
+// handles tweet button clicks
 tweetBtn.addEventListener("click", function () {
-	console.log(tweetInput.value);
 	tweetInput.value = "";
+	console.log({
+		handle: `@Lizzy`,
+		profilePic: `images/troll.jpg`,
+		likes: 207,
+		retweets: 105,
+		tweetText: tweetInput.value,
+		replies: [],
+		isLiked: false,
+		isRetweeted: false,
+		uuid: uuidv4(),
+	});
 });
 
+// handle clicks for replies, likes, retweets
 document.addEventListener("click", function (event) {
 	if (event.target.dataset.like) {
 		handleLikes(event.target.dataset.like);
@@ -48,7 +60,7 @@ function handleRetweets(tweetID) {
 	render();
 }
 
-// handles replies
+// toggles replies
 function handleReplies(replyId) {
 	document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
 }
@@ -59,7 +71,7 @@ function getFeedHtml() {
 	tweetsData.forEach(function (tweet) {
 		let likedIcon = "";
 		let retweetedIcon = "";
-		// let replyIcon = []
+
 		// checks if icon as been liked or retweeted, conditionally renders css for it
 		if (tweet.isLiked) {
 			likedIcon = "liked";
